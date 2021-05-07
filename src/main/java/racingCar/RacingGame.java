@@ -3,23 +3,53 @@ package racingCar;
 import java.util.Scanner;
 
 public class RacingGame {
-    private String carName;
-    private int repeatNum;
-
+    final Scanner scanner = new Scanner(System.in);
     private String[] carList;
     private Car[] cars;
 
-    private void setupData() {
-        final Scanner scanner = new Scanner(System.in);
+    public void start() {
+        setupData();
+        setCars();
+
+        int repeatNum = askTryTimes();
+
+        System.out.println("실행 결과");
+        for (int i = 0; i < repeatNum; i++) {
+            raceGame();
+        }
+        winnerName();
+    }
+
+    private String[] askCarName(){
+        String carName;
+        String[] cars;
 
         System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,)기준으로 구분)");
-        this.carName = scanner.nextLine();
+        carName = scanner.nextLine();
+
+        cars = splitString(carName);
+
+        return cars;
+    }
+
+    private int askTryTimes(){
+        int repeatNum;
 
         System.out.println("시도할 회수는 몇회인가요?");
-        this.repeatNum = scanner.nextInt();
-        System.out.println();
+        repeatNum = scanner.nextInt();
 
-        this.carList = carName.split(",");
+        System.out.println();
+        return repeatNum;
+    }
+
+    private void setupData() {
+        askCarName();
+        askTryTimes();
+    }
+
+    private String[] splitString(String name){
+        this.carList = name.split(",");
+        return carList;
     }
 
     private void setCars() {
@@ -37,29 +67,31 @@ public class RacingGame {
         System.out.println();
     }
 
-    private void winnerName() {
+    private int getMacPosition() {
         int maxPosition = 0;
-        int index = -1;
 
         for (int i = 0; i < carList.length; i++) {
             if (maxPosition <= cars[i].getPosition()) {
                 maxPosition = cars[i].getPosition();
-                index = i;
             }
         }
-        System.out.print("최종 우승자: ");
-        System.out.println(carList[index]);
+        return maxPosition;
     }
 
-    public void start() {
-        setupData();
-        setCars();
+    private void winnerName(){
+        int winnerPosition = getMacPosition();
+        int winnerCount = 0;
 
-        System.out.println("실행 결과");
+        System.out.print("최종 우승자: ");
 
-        for (int i = 0; i < this.repeatNum; i++) {
-            raceGame();
+        for(int i = 0; i<carList.length; i++){
+            if(cars[i].getPosition() == winnerPosition){
+                if(winnerCount != 0){
+                    System.out.print(", ");
+                }
+                System.out.print(carList[i]);
+                winnerCount++;
+            }
         }
-        winnerName();
     }
 }

@@ -3,16 +3,19 @@ package racingCar;
 import utils.RandomUtils;
 
 public class Car {
+	private static final int MIN_VALUE = 0;
+	private static final int MOVING_DISTANCE = 4;
+	private static final int MAX_VALUE = 9;
+
 	private final String name;
 	private int position = 0;
-	private static final int MOVING_DISTANCE = 4;
 
 	public Car(String name) {
 		this.name = name;
 	}
 
 	public int getRandomNum(){
-		int random = RandomUtils.nextInt(0,9);
+		int random = RandomUtils.nextInt(MIN_VALUE, MAX_VALUE);
 
 		return random;
 	}
