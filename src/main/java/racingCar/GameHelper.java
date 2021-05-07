@@ -1,39 +1,40 @@
 package racingCar;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameHelper {
     final Scanner scanner = new Scanner(System.in);
 
-    public String[] getNames() {//자동차 이름 받아서 쉼표 기준으로 잘라, 문자열 배열에 저장.
-        String[] carsNameList;
-        String carsName;
+    public String[] splitNames(){
+        String carsName = scanner.nextLine();
+        String[] eachCarsName = carsName.split(",");
+
+        return eachCarsName;
+    }
+
+    public ArrayList<String> getNames() {
+        ArrayList<String> carsNameList = new ArrayList<String>();
 
         System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
 
-        carsName = scanner.nextLine();
-        carsNameList = carsName.split(",");
+        String[] eachCarsName = splitNames();
 
-        return carsNameList;//문자열 배열 리턴
+        for(int i = 0 ; i < eachCarsName.length ; i++) {
+            carsNameList.add(eachCarsName[i]);
+        }
 
+        return carsNameList;
     }
 
-//    public String[] checkInvalidName(String[] carsNameList) {
-//        for(int i = 0 ; i < carsNameList.length ; i++) {
-//            if(carsNameList[i].length() >= 5) {
-//                System.out.println("[ERROR] 차의 이름은 5자 이하만 가능합니다. 다시 입력해주세요.");
-//                return getNames();
-//            }
-//        }
-//        return carsNameList;
-//    }
+    public ArrayList<Car> makeCars() {
+        ArrayList<String> carsNameList = getNames();
 
-    public Car[] makeCars(String[] carlist) {//문자열 배열 받아서 car 배열에 각각의 car 객체 생성
-        Car[] cars = new Car[carlist.length];
+        ArrayList<Car> cars = new ArrayList<>();
 
-        for (int i = 0; i < carlist.length; i++) {
-            String name = carlist[i];
-            cars[i] = new Car(name);
+        for (int i = 0; i < carsNameList.size(); i++) {
+            Car car = new Car(carsNameList.get(i));
+            cars.add(car);
         }
 
         return cars;
@@ -48,24 +49,20 @@ public class GameHelper {
         return playNum;
     }
 
-//    public int checkInvalidNum(int playNum) {
-//        if(playNum != )
-//    }
-
-    public Car[] driveCars(Car[] cars) {//횟 수 한번 당 car의 position 변화 주기
-        for (int i = 0; i < cars.length; i++) {
-            cars[i].driveCheck();
-        }
-        return cars;
-    }
-
-    public void printGame(Car[] cars) {
-        for (int i = 0; i < cars.length; i++) {
-            cars[i].printAdvance();
+    public void driveCars(ArrayList<Car> cars) {//횟 수 한번 당 car의 position 변화 주기
+        for (Car car : cars) {
+            car.driveCheck();
         }
     }
 
-    public void racingStart(Car[] cars, int playNum) {
+    public void printGame(ArrayList<Car> cars) {
+        for (Car car : cars) {
+            car.printAdvance();
+        }
+    }
+
+    public void racingStart(ArrayList<Car> cars) {
+        int playNum = setGameCount();
         int count = 0;
         System.out.println();
         System.out.println("실행 결과");
@@ -77,44 +74,54 @@ public class GameHelper {
         }
     }
 
-    public int getMaxPosition(Car[] cars) {
+    public int getMaxPosition(ArrayList<Car> cars) {
         int maxPosition = 0;
-        for (int i = 0; i < cars.length; i++) {
-            if (cars[i].getPosition() > maxPosition) {
-                maxPosition = cars[i].getPosition();
+        for (Car car : cars) {
+            if (car.getPosition() > maxPosition) {
+                maxPosition = car.getPosition();
             }
         }
         return maxPosition;
     }
 
-    public String[] getWinner(Car[] cars, int maxPosition) {
-        String[] winnerNames = new String[cars.length];
-        for (int i = 0; i < cars.length; i++) {
-            if (maxPosition == cars[i].getPosition()) {
-                winnerNames[i] = cars[i].getName();
+    public ArrayList<String> getWinner(ArrayList<Car> cars) {
+        int maxPosition = getMaxPosition(cars);
+        ArrayList<String> winnerNames = new ArrayList<String>();
+        for (Car car : cars) {
+            if (maxPosition == car.getPosition()) {
+                winnerNames.add(car.getName());
             }
         }
         return winnerNames;
     }
 
-    public void pritnWinner(String[] winnerNames) {
+    public void pritnWinner(ArrayList<String> winnerNames) {
         System.out.print("최종우승자: ");
-        for (int i = 0; i < winnerNames.length; i++) {
-            if (winnerNames[i] != null) {
-                System.out.print(winnerNames[i] + ", ");
-            }
-        }
+
+        System.out.print(String.join(", ", winnerNames));
+
         System.out.println();
     }
 
     public void gameStart() {
-        String[] carNames = getNames();
-        Car[] cars = makeCars(carNames);
-        int playNum = setGameCount();
-        racingStart(cars, playNum);
-        int maxPosition = getMaxPosition(cars);
-        String[] winnerNames = getWinner(cars, maxPosition);
+        ArrayList<Car> cars = makeCars();
+        racingStart(cars);
+        ArrayList<String> winnerNames = getWinner(cars);
         pritnWinner(winnerNames);
     }
+
+    //    public String[] checkInvalidName(String[] carsNameList) {
+//        for(int i = 0 ; i < carsNameList.length ; i++) {
+//            if(carsNameList[i].length() >= 5) {
+//                System.out.println("[ERROR] 차의 이름은 5자 이하만 가능합니다. 다시 입력해주세요.");
+//                return getNames();
+//            }
+//        }
+//        return carsNameList;
+//    }
+
+    //    public int checkInvalidNum(int playNum) {
+//        if(playNum != )
+//    }
 
 }
