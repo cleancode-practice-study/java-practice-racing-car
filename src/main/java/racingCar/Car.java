@@ -22,17 +22,15 @@ public class Car {
         return position;
     }
 
-    public void driveCheck() {//전진할 지 안할 지 결정 후 포지션 변경
-        int driveNum;
-
-        driveNum = RandomUtils.nextInt(RANDOM_START, RANDOM_END);
+    public void canDrive() {//전진할 지 안할 지 결정 후 포지션 변경
+        int driveNum = RandomUtils.nextInt(RANDOM_START, RANDOM_END);
 
         if (driveNum >= MOVE_NUM) {
             position++;
         }
     }
 
-    public void printAdvance() {
+    public void showResult() {
         System.out.print(name + " : ");
         if (position > 0) {
             for (int i = 0; i < position; i++) {

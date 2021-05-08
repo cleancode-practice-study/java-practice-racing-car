@@ -1,46 +1,66 @@
 package racingCar;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class GameHelper {
     final Scanner scanner = new Scanner(System.in);
 
-    public String[] splitNames(){
-        String carsName = scanner.nextLine();
-        String[] eachCarsName = carsName.split(",");
-
-        return eachCarsName;
+    public void gameStart() {
+        List<Car> cars = create();
+        racingStart(cars);
+        List<String> winnerNames = getWinner(cars);
+        printWinner(winnerNames);
     }
 
-    public ArrayList<String> getNames() {
-        ArrayList<String> carsNameList = new ArrayList<String>();
+    private List<Car> create() {
+        List<String> carNames = getNamesByUserInput();
 
-        System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
+        List<Car> cars = new ArrayList<>();
 
-        String[] eachCarsName = splitNames();
-
-        for(int i = 0 ; i < eachCarsName.length ; i++) {
-            carsNameList.add(eachCarsName[i]);
-        }
-
-        return carsNameList;
-    }
-
-    public ArrayList<Car> makeCars() {
-        ArrayList<String> carsNameList = getNames();
-
-        ArrayList<Car> cars = new ArrayList<>();
-
-        for (int i = 0; i < carsNameList.size(); i++) {
-            Car car = new Car(carsNameList.get(i));
+        for (int i = 0; i < carNames.size(); i++) {
+            Car car = new Car(carNames.get(i));
             cars.add(car);
         }
 
         return cars;
     }
 
-    public int setGameCount() {//게임 시도 횟수 리턴하는 함수
+    private List<String> getNamesByUserInput() {
+        List<String> carNames = new ArrayList<String>();
+
+        System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
+
+        String userInputNames = scanner.nextLine();
+        String[] eachCarNames = splitNames(userInputNames);
+
+        for(int i = 0 ; i < eachCarNames.length ; i++) {
+            carNames.add(eachCarNames[i]);
+        }
+        return carNames;
+    }
+
+    private String[] splitNames(String carsName){
+        String[] eachCarNames = carsName.split(",");
+
+        return eachCarNames;
+    }
+
+    private void racingStart(List<Car> cars) {
+        int tryNum = getTryNum();
+        int count = 0;
+        System.out.println();
+        System.out.println("실행 결과");
+        while (count < tryNum) {
+            changeCarPosition(cars);
+            printRacingResult(cars);
+            System.out.println();
+            count++;
+        }
+    }
+
+    private int getTryNum() {//게임 시도 횟수 리턴하는 함수
         int playNum;
 
         System.out.println("시도할 회수는 몇회인가요?");
@@ -49,32 +69,30 @@ public class GameHelper {
         return playNum;
     }
 
-    public void driveCars(ArrayList<Car> cars) {//횟 수 한번 당 car의 position 변화 주기
+    private void changeCarPosition(List<Car> cars) {//횟 수 한번 당 car의 position 변화 주기
         for (Car car : cars) {
-            car.driveCheck();
+            car.canDrive();
         }
     }
 
-    public void printGame(ArrayList<Car> cars) {
+    private void printRacingResult(List<Car> cars) {
         for (Car car : cars) {
-            car.printAdvance();
+            car.showResult();
         }
     }
 
-    public void racingStart(ArrayList<Car> cars) {
-        int playNum = setGameCount();
-        int count = 0;
-        System.out.println();
-        System.out.println("실행 결과");
-        while (count < playNum) {
-            driveCars(cars);
-            printGame(cars);
-            System.out.println();
-            count++;
+    private List<String> getWinner(List<Car> cars) {
+        int maxPosition = getMaxPosition(cars);
+        List<String> winnerNames = new ArrayList<String>();
+        for (Car car : cars) {
+            if (maxPosition == car.getPosition()) {
+                winnerNames.add(car.getName());
+            }
         }
+        return winnerNames;
     }
 
-    public int getMaxPosition(ArrayList<Car> cars) {
+    private int getMaxPosition(List<Car> cars) {
         int maxPosition = 0;
         for (Car car : cars) {
             if (car.getPosition() > maxPosition) {
@@ -84,18 +102,7 @@ public class GameHelper {
         return maxPosition;
     }
 
-    public ArrayList<String> getWinner(ArrayList<Car> cars) {
-        int maxPosition = getMaxPosition(cars);
-        ArrayList<String> winnerNames = new ArrayList<String>();
-        for (Car car : cars) {
-            if (maxPosition == car.getPosition()) {
-                winnerNames.add(car.getName());
-            }
-        }
-        return winnerNames;
-    }
-
-    public void pritnWinner(ArrayList<String> winnerNames) {
+    private void printWinner(List<String> winnerNames) {
         System.out.print("최종우승자: ");
 
         System.out.print(String.join(", ", winnerNames));
@@ -103,22 +110,19 @@ public class GameHelper {
         System.out.println();
     }
 
-    public void gameStart() {
-        ArrayList<Car> cars = makeCars();
-        racingStart(cars);
-        ArrayList<String> winnerNames = getWinner(cars);
-        pritnWinner(winnerNames);
-    }
+    private void checkInvalidName(String[] eachCarNames) {
 
-    //    public String[] checkInvalidName(String[] carsNameList) {
-//        for(int i = 0 ; i < carsNameList.length ; i++) {
-//            if(carsNameList[i].length() >= 5) {
-//                System.out.println("[ERROR] 차의 이름은 5자 이하만 가능합니다. 다시 입력해주세요.");
-//                return getNames();
-//            }
-//        }
-//        return carsNameList;
-//    }
+        boolean found = false;
+        for(String name : eachCarNames) {
+            if(name.length() > 5) {
+                found = true;
+            }
+        }
+        if(found = true) {
+            System.out.println("[ERROR] 차의 이름은 5자 이하만 가능합니다. 다시 입력해주세요.");
+            getNamesByUserInput();
+        }
+    }
 
     //    public int checkInvalidNum(int playNum) {
 //        if(playNum != )
