@@ -15,9 +15,7 @@ public class Car {
 	}
 
 	public int getRandomNum(){
-		int random = RandomUtils.nextInt(MIN_VALUE, MAX_VALUE);
-
-		return random;
+		return RandomUtils.nextInt(MIN_VALUE, MAX_VALUE);
 	}
 
 	public void moveOrStop(int randomNumber){
@@ -26,11 +24,15 @@ public class Car {
 		}
 	}
 
+	public String getName(){
+		return this.name;
+	}
+
 	public int getPosition() {
 		return this.position;
 	}
 
-	private void raceOutput() {
+	public void raceOutput() {
 		System.out.print(this.name);
 		System.out.print(" : ");
 
