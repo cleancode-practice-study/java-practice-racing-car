@@ -4,22 +4,20 @@ import utils.RandomUtils;
 
 public class Car {
 	private static final int MIN_VALUE = 0;
-	private static final int MOVING_DISTANCE = 4;
+	private static final int MOVING_STANDARD = 4;
 	private static final int MAX_VALUE = 9;
 
 	private final String name;
 	private int position = 0;
 
-	public Car(String name) {
-		this.name = name;
-	}
+	public Car(String name) { this.name = name; }
 
-	public int getRandomNum(){
+	public int getRandomNumber(){
 		return RandomUtils.nextInt(MIN_VALUE, MAX_VALUE);
 	}
 
 	public void moveOrStop(int randomNumber){
-		if(randomNumber >= MOVING_DISTANCE) {
+		if(MOVING_STANDARD <= randomNumber) {
 			this.position++;
 		}
 	}
@@ -32,7 +30,7 @@ public class Car {
 		return this.position;
 	}
 
-	public void raceOutput() {
+	public void raceResultPrint() {
 		System.out.print(this.name);
 		System.out.print(" : ");
 
@@ -42,8 +40,8 @@ public class Car {
 		System.out.println();
 	}
 
-	public void race() {
-		moveOrStop(getRandomNum());
-		raceOutput();
+	public void oneTimeRace() {
+		moveOrStop(getRandomNumber());
+		raceResultPrint();
 	}
 }
