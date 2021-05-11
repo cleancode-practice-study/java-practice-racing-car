@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class RacingGame {
-    final Scanner scanner = new Scanner(System.in);
-
-    public void startGame() {
+    public void start() {
         List<Car> cars = createCars();
         int repeatNum = getTryNumber();
 
@@ -15,25 +13,27 @@ public class RacingGame {
         for (int i = 0; i < repeatNum; i++) {
             raceGame(cars);
         }
-        System.out.print("최종 우승자: ");
-        getWinner(cars);
+
+        printWinner(getWinner(cars));
     }
 
-    private List<String> getCarName(){
-        List<String> cars = new ArrayList<>();
+    private List<String> getCarNames(){
+        final Scanner scanner = new Scanner(System.in);
+        List<String> carNames = new ArrayList<>();
 
         System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,)기준으로 구분)");
-        String carNames = scanner.nextLine();
-        String[] names = splitCarNames(carNames);
+        String cars = scanner.nextLine();
+        String[] names = splitCarNames(cars);
 
-        for(String eachName : names){
-            cars.add(eachName);
+        for(String name : names){
+            carNames.add(name);
         }
 
-        return cars;
+        return carNames;
     }
 
     private int getTryNumber(){
+        final Scanner scanner = new Scanner(System.in);
         int tryNumber;
 
         System.out.println("시도할 회수는 몇회인가요?");
@@ -50,19 +50,20 @@ public class RacingGame {
     }
 
     private List<Car> createCars() {
-        List<String> carNames = getCarName();
+        List<String> carNames = getCarNames();
         List<Car> cars = new ArrayList<>();
 
-        for (String eachName : carNames) {
-            Car car = new Car(eachName);
+        for (String carName : carNames) {
+            Car car = new Car(carName);
             cars.add(car);
         }
+
         return cars;
     }
 
     private void raceGame(List<Car> cars) {
-        for (int i = 0; i < cars.size(); i++) {
-            cars.get(i).oneTimeRace();
+        for (Car car : cars) {
+            car.raceResult();
         }
         System.out.println();
     }
@@ -70,30 +71,30 @@ public class RacingGame {
     private int getMaxPosition(List<Car> cars) {
         int maxPosition = 0;
 
-        for (int i = 0; i < cars.size(); i++) {
-            if (maxPosition <= cars.get(i).getPosition()) {
-                maxPosition = cars.get(i).getPosition();
+        for (Car car : cars) {
+            if (maxPosition <= car.getPosition()) {
+                maxPosition = car.getPosition();
             }
         }
+
         return maxPosition;
     }
 
-    private void getWinner(List<Car> cars) {
+    private List<String> getWinner(List<Car> cars) {
         int winnerPosition = getMaxPosition(cars);
-        int winnerCount = 0;
+        List<String> winner = new ArrayList<>();
 
-        for (int i = 0; i < cars.size(); i++) {
-            if (cars.get(i).getPosition() == winnerPosition) {
-                winnerPrint(cars.get(i).getName(), winnerCount);
-                winnerCount++;
+        for (Car car : cars) {
+            if (car.getPosition() == winnerPosition) {
+                winner.add(car.getName());
             }
         }
+
+        return winner;
     }
 
-    private void winnerPrint(String winnerName, int winnerCount){
-        if(winnerCount != 0){
-            System.out.print(", ");
-        }
-        System.out.print(winnerName);
+    private void printWinner(List<String> winner) {
+        System.out.print("최종 우승자: ");
+        System.out.println(String.join(", ", winner));
     }
 }

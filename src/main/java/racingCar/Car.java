@@ -10,14 +10,16 @@ public class Car {
 	private final String name;
 	private int position = 0;
 
-	public Car(String name) { this.name = name; }
+	public Car(String name){
+		this.name = name;
+	}
 
 	public int getRandomNumber(){
 		return RandomUtils.nextInt(MIN_VALUE, MAX_VALUE);
 	}
 
-	public void moveOrStop(int randomNumber){
-		if(MOVING_STANDARD <= randomNumber) {
+	public void move(int randomNumber){
+		if(MOVING_STANDARD <= randomNumber){
 			this.position++;
 		}
 	}
@@ -26,22 +28,22 @@ public class Car {
 		return this.name;
 	}
 
-	public int getPosition() {
+	public int getPosition(){
 		return this.position;
 	}
 
-	public void raceResultPrint() {
+	public void printRaceResult(){
 		System.out.print(this.name);
 		System.out.print(" : ");
 
-		for (int i = 0; i < this.position; i++) {
+		for (int i = 0; i < this.position; i++){
 			System.out.print("-");
 		}
 		System.out.println();
 	}
 
-	public void oneTimeRace() {
-		moveOrStop(getRandomNumber());
-		raceResultPrint();
+	public void raceResult(){
+		move(getRandomNumber());
+		printRaceResult();
 	}
 }
