@@ -59,10 +59,11 @@ public class GameHelper {
         for (String name : eachCarNames) {
             if (name.length() > 5) {
                 found = true;
+                break;
             }
         }
 
-        if (found == true) {
+        if (found) {
             System.out.println("[ERROR] 차의 이름은 5자 이하만 가능합니다. 다시 입력해주세요.");
         }
 
