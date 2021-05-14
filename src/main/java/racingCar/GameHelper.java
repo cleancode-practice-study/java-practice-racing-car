@@ -29,22 +29,25 @@ public class GameHelper {
     }
 
     private List<String> getNamesByUserInput() {
-//        boolean canGetNames = false;
+        String[] eachCarNames;
+        boolean found = false;
+
+        do {
+            System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
+
+            String userInputNames = scanner.nextLine();
+            eachCarNames = splitNames(userInputNames);
+            found = checkInvalidName(eachCarNames);
+
+        } while (found);
 
         List<String> carNames = new ArrayList<String>();
-
-        System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
-
-        String userInputNames = scanner.nextLine();
-        String[] eachCarNames = splitNames(userInputNames);
-//        canGetNames = checkInvalidName(eachCarNames);
         carNames.addAll(Arrays.asList(eachCarNames));
-
 
         return carNames;
     }
 
-    private String[] splitNames(String carsName){
+    private String[] splitNames(String carsName) {
         String[] eachCarNames = carsName.split(",");
 
         return eachCarNames;
@@ -53,16 +56,13 @@ public class GameHelper {
     private boolean checkInvalidName(String[] eachCarNames) {
         boolean found = false;
 
-        for(String name : eachCarNames) {
-            if(name.length() > 5) {
+        for (String name : eachCarNames) {
+            if (name.length() > 5) {
                 found = true;
-            }
-            else if(name.length() <= 5) {
-                found = false;
             }
         }
 
-        if(found == true) {
+        if (found == true) {
             System.out.println("[ERROR] 차의 이름은 5자 이하만 가능합니다. 다시 입력해주세요.");
         }
 
