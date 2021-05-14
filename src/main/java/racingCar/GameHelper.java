@@ -54,20 +54,14 @@ public class GameHelper {
     }
 
     private boolean checkInvalidName(String[] eachCarNames) {
-        boolean found = false;
 
         for (String name : eachCarNames) {
             if (name.length() > 5) {
-                found = true;
-                break;
+                System.out.println("[ERROR] 차의 이름은 5자 이하만 가능합니다. 다시 입력해주세요.");
+                return true;
             }
         }
-
-        if (found) {
-            System.out.println("[ERROR] 차의 이름은 5자 이하만 가능합니다. 다시 입력해주세요.");
-        }
-
-        return found;
+        return false;
     }
 
     private void racingStart(List<Car> cars) {
@@ -132,6 +126,5 @@ public class GameHelper {
 
         System.out.println();
     }
-
 
 }
