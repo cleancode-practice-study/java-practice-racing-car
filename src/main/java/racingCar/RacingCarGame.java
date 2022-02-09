@@ -97,9 +97,9 @@ public class RacingCarGame {
     }
 
     public void printRaceWinner(ArrayList<String> winner) {
-        for (int i = 0; i < winner.size(); i++) {
-            System.out.println(winner.get(i));
-        }
+        String winners = String.join(", ", winner);
+        System.out.println(winners);
+
 
     }
 
