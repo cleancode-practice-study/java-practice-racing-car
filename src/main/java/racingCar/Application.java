@@ -11,7 +11,7 @@ import java.util.Scanner;
 // 자동차 객체 생성 하는 기능 ㅇ
 // 경주 횟수 마다 자동차 위치 정보 업데이트하는 기능 ㅇ
 // 경주 횟수마다 결과 출력하는 기능 ㅇ
-// 우승자 출력 기능
+// 우승자 출력 기능 ㅇ
 
 public class Application {
 	public static int CAR_NAME_LIMIT = 5;
@@ -29,9 +29,14 @@ public class Application {
 		// 입력받은 이름으로 자동차 객체를 생성한다.
 		ArrayList<Car> cars = application.createCars(carNames);
 
-		// 입력 받은 경주 횟수 만큼 자동차 위치 정보를 업데이트 한다.
+		// 입력 받은 경주 횟수 만큼 자동차 위치 정보를 업데이트 하고, 결과를 출력한다.
 		application.driveCars(cars);
 
+		// 우승자 리스트를 받는다.
+		ArrayList<String> winners = application.getWinners(cars);
+
+		// 우승자를 출력한다.
+		application.printWinners(winners);
 	}
 
 	private ArrayList<String> getCarNames() {
@@ -67,6 +72,7 @@ public class Application {
 		}
 		return true;
 	}
+
 
 	private ArrayList<Car> createCars(ArrayList<String> names) {
 		ArrayList<Car> cars = new ArrayList<>();
@@ -106,6 +112,33 @@ public class Application {
 			String result = car.getResult();
 			System.out.println(result);
 		}
+		System.out.println();
+	}
+
+	private ArrayList<String> getWinners(ArrayList<Car> cars) {
+		int winScore = getWinScore(cars);
+		ArrayList<String> winners = new ArrayList<>();
+		for (Car car : cars) {
+			if (car.getPosition() == winScore) {
+				winners.add(car.getName());
+			}
+		}
+		return winners;
+	}
+
+	private int getWinScore(ArrayList<Car> cars) {
+		int winScore = 0;
+		for (Car car : cars) {
+			if ( winScore < car.getPosition()) {
+				winScore = car.getPosition();
+			}
+		}
+		return winScore;
+	}
+
+	private void printWinners(ArrayList<String> winners) {
+		System.out.print("최종 우승자: ");
+		System.out.print(String.join(", ", winners));
 		System.out.println();
 	}
 
