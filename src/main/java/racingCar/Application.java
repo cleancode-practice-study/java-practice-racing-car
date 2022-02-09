@@ -7,10 +7,9 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 // 경주할 자동차 이름 입력 받는 기능
-// 자동차 이름 유효한 지 확인 하는 기능
-// 자동차 객체 생성 하는 기능
-// 경주 횟수 만큼 객체 마다 랜덤하게 수 생성하는 기능
-// 경주 횟수 마다 자동차 위치 정보 변경하는 기능 3 이하면 정지, 4 이상이면 전진
+// 자동차 이름 유효한 지 확인 하는 기능ㅇ
+// 자동차 객체 생성 하는 기능 ㅇ
+// 경주 횟수 마다 자동차 위치 정보 업데이트하는 기능 ㅇ
 // 경주 횟수마다 결과 출력하는 기능
 // 누가 우승을 했는지 알아내는 기능
 // 우승자를 출력하는 기능
@@ -20,25 +19,23 @@ public class Application {
 	public static int START_RANDOM_NUMBER = 0;
 	public static int END_RANDOM_NUMBER = 9;
 
+	static final Scanner scanner = new Scanner(System.in);
+
 	public static void main(String[] args) {
-		final Scanner scanner = new Scanner(System.in);
 		Application application = new Application();
 
 		// 자동차 이름을 입력 받는다.
-		ArrayList<String> carNames = application.getCarNames(scanner);
+		ArrayList<String> carNames = application.getCarNames();
 
 		// 입력받은 이름으로 자동차 객체를 생성한다.
 		ArrayList<Car> cars = application.createCars(carNames);
 
-		// 경주 횟수를 입력 받는다.
-		int racingCount = application.getRacingCount(scanner);
-
 		// 입력 받은 경주 횟수 만큼 자동차 위치 정보를 업데이트 한다.
-		application.driveCars(racingCount, cars);
+		application.driveCars(cars);
 
 	}
 
-	private ArrayList<String> getCarNames(Scanner scanner) {
+	private ArrayList<String> getCarNames() {
 		boolean isInvalid;
 
 		ArrayList<String> carNames;
@@ -81,17 +78,18 @@ public class Application {
 		return cars;
 	}
 
-	private int getRacingCount(Scanner scanner) {
-		System.out.println("시도할 회수는 몇회인가요?");
-		return Integer.parseInt(scanner.nextLine());
-	}
-
-	private void driveCars(int racingCount, ArrayList<Car> cars) {
+	private void driveCars(ArrayList<Car> cars) {
+		int racingCount = getRacingCount();
 		int count = 0;
 		while(count < racingCount) {
 			driveCarsOnce(cars);
 			count++;
 		}
+	}
+
+	private int getRacingCount() {
+		System.out.println("시도할 회수는 몇회인가요?");
+		return Integer.parseInt(scanner.nextLine());
 	}
 
 	private void driveCarsOnce(ArrayList<Car> cars) {
