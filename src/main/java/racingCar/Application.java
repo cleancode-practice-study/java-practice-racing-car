@@ -10,9 +10,8 @@ import java.util.Scanner;
 // 자동차 이름 유효한 지 확인 하는 기능ㅇ
 // 자동차 객체 생성 하는 기능 ㅇ
 // 경주 횟수 마다 자동차 위치 정보 업데이트하는 기능 ㅇ
-// 경주 횟수마다 결과 출력하는 기능
-// 누가 우승을 했는지 알아내는 기능
-// 우승자를 출력하는 기능
+// 경주 횟수마다 결과 출력하는 기능 ㅇ
+// 우승자 출력 기능
 
 public class Application {
 	public static int CAR_NAME_LIMIT = 5;
@@ -81,8 +80,11 @@ public class Application {
 	private void driveCars(ArrayList<Car> cars) {
 		int racingCount = getRacingCount();
 		int count = 0;
+		System.out.println();
+		System.out.println("실행 결과");
 		while(count < racingCount) {
 			driveCarsOnce(cars);
+			printResult(cars);
 			count++;
 		}
 	}
@@ -99,5 +101,12 @@ public class Application {
 		}
 	}
 
+	private void printResult(ArrayList<Car> cars) {
+		for (Car car : cars) {
+			String result = car.getResult();
+			System.out.println(result);
+		}
+		System.out.println();
+	}
 
 }
