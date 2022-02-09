@@ -8,5 +8,14 @@ public class Car {
 		this.name = name;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	// 임하림 바보
 	// 추가 기능 구현
 }
