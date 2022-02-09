@@ -58,13 +58,13 @@ public class Application {
 		for (String name : names) {
 			checkNameLength(name.length());
 		}
-		return true;
+		return false;
 	}
 
 	private boolean checkNameLength(int length) {
 		if (length > CAR_NAME_LIMIT) {
-			System.out.println("[ERROR] 시도 횟수는 숫자여야 한다.");
-			return false;
+			System.out.println("[ERROR] 자동차 이름의 길이는 5자 이하야 이어야 한다.");
+			return true;
 		}
 		return true;
 	}
