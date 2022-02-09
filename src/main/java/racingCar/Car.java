@@ -21,6 +21,10 @@ public class Car {
         return RandomUtils.nextInt(START_VALUE, END_VALUE);
     }
 
+    public int getPosition() {
+        return position;
+    }
+
     public int isMove() {
         int number = getNumber();
 
@@ -29,11 +33,6 @@ public class Car {
 
         return position;
     }
-
-    public int getPosition() {
-        return position;
-    }
-
     public void race() {
         int location = isMove();
 

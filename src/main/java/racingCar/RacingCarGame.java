@@ -17,13 +17,11 @@ public class RacingCarGame {
 
         System.out.println("실행 결과");
         for (int i = 0; i < tryNumber; i++) {
-            printOneRaceResult(carList);
+            printRaceResult(carList);
         }
 
         System.out.print("최종 우승자: ");
-        int maxPositionIdx = getMaxPositionIdx(carList);
-        isEqualMaxPosition(carList, maxPositionIdx);
-        printRaceWinner(winner);
+        printRaceWinner(carList, winner);
     }
 
     public int getTryNumber() {
@@ -57,7 +55,7 @@ public class RacingCarGame {
         }
     }
 
-    public void printOneRaceResult(ArrayList<Car> carList) {
+    public void printRaceResult(ArrayList<Car> carList) {
         raceResult(carList);
         System.out.println("");
     }
@@ -96,11 +94,15 @@ public class RacingCarGame {
         return winner;
     }
 
-    public void printRaceWinner(ArrayList<String> winner) {
+    public void getWinner(ArrayList<Car> carList) {
+        int maxPositionIdx = getMaxPositionIdx(carList);
+        isEqualMaxPosition(carList, maxPositionIdx);
+    }
+
+    public void printRaceWinner(ArrayList<Car> carList, ArrayList<String> winner) {
+        getWinner(carList);
         String winners = String.join(", ", winner);
         System.out.println(winners);
-
-
     }
 
 }
