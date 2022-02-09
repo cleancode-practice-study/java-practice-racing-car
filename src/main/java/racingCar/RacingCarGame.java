@@ -22,7 +22,7 @@ public class RacingCarGame {
         }
 
         System.out.println("최종 우승자: ");
-        getWinner();
+        getWinner(carList);
     }
 
     public int getTryNumber() {
@@ -61,7 +61,12 @@ public class RacingCarGame {
         System.out.println("");
     }
 
-    public void getWinner() {
+    public void getWinner(ArrayList<Car> carLists) {
+        for (int i = 0; i < carLists.size(); i++) {
+            int finalPosition = carLists.get(i).getPosition();
+            System.out.println(finalPosition);
+        }
+
 
     }
 

@@ -17,7 +17,7 @@ public class Car {
         return RandomUtils.nextInt(START_VALUE, END_VALUE);
     }
 
-    public int getPosition() {
+    public int isMove(){
         int number = getNumber();
 
         if (number >= MOVING_STANDARD)
@@ -26,8 +26,12 @@ public class Car {
         return position;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
     public void race() {
-        int location = getPosition();
+        int location = isMove();
 
         System.out.print(this.name + ":");
         for (int i = 0; i < location; i++) {
