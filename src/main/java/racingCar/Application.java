@@ -24,6 +24,8 @@ public class Application {
 
 		ArrayList<String> carNames = application.getCarNames(scanner);
 
+		ArrayList<Car> cars = application.createCars(carNames);
+
 	}
 
 	private ArrayList<String> getCarNames(Scanner scanner) {
@@ -42,15 +44,30 @@ public class Application {
 
 	private ArrayList<String> splitCarNames(String cars) {
 		String[] names = cars.split(",");
-		return new ArrayList<String>(Arrays.asList(names));
+		return new ArrayList<>(Arrays.asList(names));
 	}
 
 	private boolean checkValidName(ArrayList<String> names) {
 		for (String name : names) {
-			if (name.length() != CAR_NAME_LIMIT) {
-				return false;
-			}
+			checkNameLength(name.length());
 		}
 		return true;
+	}
+
+	private boolean checkNameLength(int length) {
+		if (length > CAR_NAME_LIMIT) {
+			System.out.println("[ERROR] 시도 횟수는 숫자여야 한다.");
+			return false;
+		}
+		return true;
+	}
+
+	private ArrayList<Car> createCars(ArrayList<String> names) {
+		ArrayList<Car> cars = new ArrayList<>();
+		for(String name : names) {
+			Car car = new Car(name);
+			cars.add(car);
+		}
+		return cars;
 	}
 }
