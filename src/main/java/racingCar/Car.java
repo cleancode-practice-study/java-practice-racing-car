@@ -13,11 +13,15 @@ public class Car {
         this.name = name;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     public int getNumber() {
         return RandomUtils.nextInt(START_VALUE, END_VALUE);
     }
 
-    public int isMove(){
+    public int isMove() {
         int number = getNumber();
 
         if (number >= MOVING_STANDARD)
