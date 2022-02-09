@@ -18,9 +18,7 @@ public class RacingCarGame {
 
         System.out.println("실행 결과");
         for (int i = 0; i < tryNumber; i++) {
-            for (int j = 0; j < carLists.size(); j++) {
-                race(carLists.get(j));
-            }
+            race(carLists);
             System.out.println("");
         }
 
@@ -51,9 +49,11 @@ public class RacingCarGame {
         return carList;
     }
 
-    public void race(Car car) {
-        car.printResult();
-        System.out.println("");
+    public void race(ArrayList<Car> carLists) {
+        for (int i = 0; i < carLists.size(); i++) {
+            carLists.get(i).printResult();
+            System.out.println("");
+        }
     }
 
     public void getWinner() {
