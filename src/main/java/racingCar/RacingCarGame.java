@@ -1,5 +1,8 @@
 package racingCar;
 
+import java.sql.Struct;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class RacingCarGame {
@@ -7,38 +10,50 @@ public class RacingCarGame {
 
     public void play() {
         System.out.println("경주할 자동차 이름을 입력하세요. (이름은 쉼표(,) 기준으로 구분)");
-        String[] carNames = createCar();
+        String[] carNames = inputCarNames();
+        ArrayList<Car> carLists = createCar(carNames);
+
         System.out.println("시도할 횟수는 몇회인가요?");
         int tryNumber = getTryNumber();
-        System.out.println("실행 결과");
 
-        race(carNames, tryNumber);
+        System.out.println("실행 결과");
+        for (int i = 0; i < tryNumber; i++) {
+            for (int j = 0; j < carLists.size(); j++) {
+                race(carLists.get(j));
+            }
+            System.out.println("");
+        }
 
         System.out.println("최종 우승자: ");
         getWinner();
     }
 
     public int getTryNumber() {
-        int attempts = scanner.nextInt();
+        int tryNumber = scanner.nextInt();
 
-        return attempts;
+        return tryNumber;
     }
 
-    public String[] createCar() {
+    public String[] inputCarNames() {
         String carNames = scanner.next();
         String[] carName = carNames.split(",");
 
         return carName;
     }
 
-    public void race(String[] carNames, int tryNumber) {
-        for (int i = 0; i < tryNumber; i++) {
-            for (String carName : carNames) {
-                Car car = new Car(carName);
-                car.printResult();
-            }
-            System.out.println("");
+    public ArrayList<Car> createCar(String[] carNames) {
+        ArrayList<Car> carList = new ArrayList<Car>();
+        for (String carName : carNames) {
+            Car car = new Car(carName);
+            carList.add(car);
         }
+
+        return carList;
+    }
+
+    public void race(Car car) {
+        car.printResult();
+        System.out.println("");
     }
 
     public void getWinner() {

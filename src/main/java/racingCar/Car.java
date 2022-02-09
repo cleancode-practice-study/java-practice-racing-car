@@ -17,22 +17,21 @@ public class Car {
         return RandomUtils.nextInt(START_VALUE, END_VALUE);
     }
 
-    public int getPosition(){
-		int number = getNumber();
+    public int getPosition() {
+        int number = getNumber();
 
-		if (number >= MOVING_STANDARD)
-			this.position++;
+        if (number >= MOVING_STANDARD)
+            this.position++;
 
-		return position;
-	}
+        return position;
+    }
 
     public void printResult() {
-    	int location = getPosition();
+        int location = getPosition();
 
         System.out.print(this.name + ":");
         for (int i = 0; i < location; i++) {
             System.out.print("-");
         }
-		System.out.println("");
     }
 }
