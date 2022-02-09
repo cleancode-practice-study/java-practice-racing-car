@@ -1,6 +1,8 @@
 package racingCar;
 
 public class Car {
+	public static int CAN_DRIVE = 4;
+
 	private final String name;
 	private int position = 0;
 
@@ -16,6 +18,9 @@ public class Car {
 		return position;
 	}
 
-	// 임하림 바보
-	// 추가 기능 구현
+	public void move(int randomNum) {
+		if (randomNum >= CAN_DRIVE) {
+			this.position++;
+		}
+	}
 }
