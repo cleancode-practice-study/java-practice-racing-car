@@ -26,7 +26,7 @@ public class Car {
         return position;
     }
 
-    public void printResult() {
+    public void race() {
         int location = getPosition();
 
         System.out.print(this.name + ":");

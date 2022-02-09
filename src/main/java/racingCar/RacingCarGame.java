@@ -11,15 +11,14 @@ public class RacingCarGame {
     public void play() {
         System.out.println("경주할 자동차 이름을 입력하세요. (이름은 쉼표(,) 기준으로 구분)");
         String[] carNames = inputCarNames();
-        ArrayList<Car> carLists = createCar(carNames);
+        ArrayList<Car> carList = createCar(carNames);
 
         System.out.println("시도할 횟수는 몇회인가요?");
         int tryNumber = getTryNumber();
 
         System.out.println("실행 결과");
         for (int i = 0; i < tryNumber; i++) {
-            race(carLists);
-            System.out.println("");
+            printOneRaceResult(carList);
         }
 
         System.out.println("최종 우승자: ");
@@ -41,6 +40,7 @@ public class RacingCarGame {
 
     public ArrayList<Car> createCar(String[] carNames) {
         ArrayList<Car> carList = new ArrayList<Car>();
+
         for (String carName : carNames) {
             Car car = new Car(carName);
             carList.add(car);
@@ -49,11 +49,16 @@ public class RacingCarGame {
         return carList;
     }
 
-    public void race(ArrayList<Car> carLists) {
+    public void raceResult(ArrayList<Car> carLists) {
         for (int i = 0; i < carLists.size(); i++) {
-            carLists.get(i).printResult();
+            carLists.get(i).race();
             System.out.println("");
         }
+    }
+
+    public void printOneRaceResult(ArrayList<Car> carList){
+        raceResult(carList);
+        System.out.println("");
     }
 
     public void getWinner() {
