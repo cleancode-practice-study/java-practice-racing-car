@@ -4,6 +4,7 @@ import utils.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 // 경주할 자동차 이름 입력 받는 기능
@@ -13,6 +14,11 @@ import java.util.Scanner;
 // 경주 횟수마다 결과 출력하는 기능 ㅇ
 // 우승자 출력 기능 ㅇ
 
+// 자동차 이름 유효 검증 로직 수정
+// 경주 횟수 검증 로직 추가
+// 출력 로직 수정
+// 인터페이스 참조하도록 수정
+
 public class Application {
 	public static int CAR_NAME_LIMIT = 5;
 	public static int START_RANDOM_NUMBER = 0;
@@ -21,61 +27,53 @@ public class Application {
 	static final Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		Application application = new Application();
-
 		// 자동차 이름을 입력 받는다.
-		ArrayList<String> carNames = application.getCarNames();
+		List<String> carNames = getCarNames();
 
 		// 입력받은 이름으로 자동차 객체를 생성한다.
-		ArrayList<Car> cars = application.createCars(carNames);
+		List<Car> cars = createCars(carNames);
 
 		// 입력 받은 경주 횟수 만큼 자동차 위치 정보를 업데이트 하고, 결과를 출력한다.
-		application.driveCars(cars);
+		driveCars(cars);
 
 		// 우승자 리스트를 받는다.
-		ArrayList<String> winners = application.getWinners(cars);
+		List<String> winners = getWinners(cars);
 
 		// 우승자를 출력한다.
-		application.printWinners(winners);
+		printWinners(winners);
 	}
 
-	private ArrayList<String> getCarNames() {
-		boolean isInvalid;
+	private static List<String> getCarNames() {
+		boolean isValid;
+		List<String> carNames;
 
-		ArrayList<String> carNames;
 		do {
 			System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
 			String names = scanner.nextLine();
 			carNames = splitCarNames(names);
-			isInvalid = checkValidName(carNames);
-		} while (isInvalid);
+			isValid = checkValidName(carNames);
+		} while (!isValid);
 
 		return carNames;
 	}
 
-	private ArrayList<String> splitCarNames(String cars) {
+	private static List<String> splitCarNames(String cars) {
 		String[] names = cars.split(",");
 		return new ArrayList<>(Arrays.asList(names));
 	}
 
-	private boolean checkValidName(ArrayList<String> names) {
+	private static boolean checkValidName(List<String> names) {
 		for (String name : names) {
-			checkNameLength(name.length());
-		}
-		return false;
-	}
-
-	private boolean checkNameLength(int length) {
-		if (length > CAR_NAME_LIMIT) {
-			System.out.println("[ERROR] 자동차 이름의 길이는 5자 이하야 이어야 한다.");
-			return true;
+			if (name.length() > CAR_NAME_LIMIT) {
+				System.out.println("[ERROR] 자동차 이름의 길이는 5자 이하야 이어야 한다.");
+				return false;
+			}
 		}
 		return true;
 	}
 
-
-	private ArrayList<Car> createCars(ArrayList<String> names) {
-		ArrayList<Car> cars = new ArrayList<>();
+	private static List<Car> createCars(List<String> names) {
+		List<Car> cars = new ArrayList<>();
 		for(String name : names) {
 			Car car = new Car(name);
 			cars.add(car);
@@ -83,11 +81,13 @@ public class Application {
 		return cars;
 	}
 
-	private void driveCars(ArrayList<Car> cars) {
+	private static void driveCars(List<Car> cars) {
 		int racingCount = getRacingCount();
 		int count = 0;
+
 		System.out.println();
 		System.out.println("실행 결과");
+
 		while(count < racingCount) {
 			driveCarsOnce(cars);
 			printResult(cars);
@@ -95,19 +95,49 @@ public class Application {
 		}
 	}
 
-	private int getRacingCount() {
-		System.out.println("시도할 회수는 몇회인가요?");
-		return Integer.parseInt(scanner.nextLine());
+	private static int getRacingCount() {
+
+		String input;
+		int racingCount = 0;
+		boolean isValid;
+
+		do {
+			System.out.println("시도할 회수는 몇회인가요?");
+			input = scanner.nextLine();
+			isValid = checkValidRacingCount(input);
+		} while (!isValid);
+
+		racingCount = Integer.parseInt(input);
+
+		return racingCount;
 	}
 
-	private void driveCarsOnce(ArrayList<Car> cars) {
+	private static boolean checkValidRacingCount(String input) {
+
+		boolean isValid = true;
+		try {
+
+			Integer.parseInt(input);
+
+		} catch (NumberFormatException exception) {
+
+			System.out.println("[ERROR] 시도 횟수는 숫자여야 한다.");
+			isValid = false;
+
+		}
+
+		return isValid;
+	}
+
+
+	private static void driveCarsOnce(List<Car> cars) {
 		for (Car car : cars) {
 			int number = RandomUtils.nextInt(START_RANDOM_NUMBER, END_RANDOM_NUMBER);
 			car.move(number);
 		}
 	}
 
-	private void printResult(ArrayList<Car> cars) {
+	private static void printResult(List<Car> cars) {
 		for (Car car : cars) {
 			String result = car.getResult();
 			System.out.println(result);
@@ -115,9 +145,9 @@ public class Application {
 		System.out.println();
 	}
 
-	private ArrayList<String> getWinners(ArrayList<Car> cars) {
+	private static List<String> getWinners(List<Car> cars) {
 		int winScore = getWinScore(cars);
-		ArrayList<String> winners = new ArrayList<>();
+		List<String> winners = new ArrayList<>();
 		for (Car car : cars) {
 			if (car.getPosition() == winScore) {
 				winners.add(car.getName());
@@ -126,7 +156,7 @@ public class Application {
 		return winners;
 	}
 
-	private int getWinScore(ArrayList<Car> cars) {
+	private static int getWinScore(List<Car> cars) {
 		int winScore = 0;
 		for (Car car : cars) {
 			if ( winScore < car.getPosition()) {
@@ -136,7 +166,7 @@ public class Application {
 		return winScore;
 	}
 
-	private void printWinners(ArrayList<String> winners) {
+	private static void printWinners(List<String> winners) {
 		System.out.print("최종 우승자: ");
 		System.out.print(String.join(", ", winners));
 		System.out.println();
