@@ -1,6 +1,7 @@
 package racingCar;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class RacingCarGame {
@@ -15,6 +16,10 @@ public class RacingCarGame {
         System.out.println("시도할 횟수는 몇회인가요?");
         int tryNumber = inputTryNumber();
 
+        if(tryNumber == -1){
+            System.exit(0);
+        }
+
         System.out.println("실행 결과");
         while (tryNumber > 0) {
             printRaceResult(carList);
@@ -26,7 +31,14 @@ public class RacingCarGame {
     }
 
     public int inputTryNumber() {
-        int tryNumber = scanner.nextInt();
+        int tryNumber = 0;
+
+        try {
+            tryNumber = scanner.nextInt();
+        }catch (InputMismatchException ime){
+            System.out.println("[ERROR] 시도 횟수는 숫자여야 한다.");
+            tryNumber = -1;
+        }
 
         return tryNumber;
     }
@@ -34,6 +46,14 @@ public class RacingCarGame {
     public String[] inputCarNames() {
         String carNames = scanner.next();
         String[] carName = carNames.split(",");
+
+        for(String name : carName){
+            if(name.length() > 5) {
+                System.out.println("5자 이하의 이름으로 입력해주세요.");
+                carNames = scanner.next();
+                carName = carNames.split(",");
+            }
+        }
 
         return carName;
     }
