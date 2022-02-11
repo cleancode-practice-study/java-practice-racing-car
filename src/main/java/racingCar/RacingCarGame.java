@@ -5,26 +5,22 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class RacingCarGame {
+    private static final int NAME_LENGTH_STANDARD = 5;
+    private static final int NOT_A_NUMBER = -1;
     final Scanner scanner = new Scanner(System.in);
     ArrayList<String> winner = new ArrayList<String>();
 
     public void play() {
-        System.out.println("경주할 자동차 이름을 입력하세요. (이름은 쉼표(,) 기준으로 구분)");
-        String[] carNames = inputCarNames(); // 자동차 이름은 5자 이하만 가능,
+        String[] carNames = inputCarNames();
         ArrayList<Car> carList = createCars(carNames);
-
-        System.out.println("시도할 횟수는 몇회인가요?");
         int tryNumber = inputTryNumber();
-
-        if(tryNumber == -1){
+        boolean isNum = isNumber(tryNumber);
+        if (!isNum)
             System.exit(0);
-        }
 
         System.out.println("실행 결과");
-        while (tryNumber > 0) {
+        for (int i = 0; i < tryNumber; i++)
             printRaceResult(carList);
-            tryNumber--;
-        }
 
         System.out.print("최종 우승자: ");
         printWinner(carList);
@@ -33,9 +29,10 @@ public class RacingCarGame {
     public int inputTryNumber() {
         int tryNumber = 0;
 
+        System.out.println("시도할 횟수는 몇회인가요?");
         try {
             tryNumber = scanner.nextInt();
-        }catch (InputMismatchException ime){
+        } catch (InputMismatchException ime) {
             System.out.println("[ERROR] 시도 횟수는 숫자여야 한다.");
             tryNumber = -1;
         }
@@ -43,18 +40,24 @@ public class RacingCarGame {
         return tryNumber;
     }
 
+    public boolean isNumber(int tryNumber) {
+        if (tryNumber == NOT_A_NUMBER)
+            return false;
+        return true;
+    }
+
     public String[] inputCarNames() {
+        System.out.println("경주할 자동차 이름을 입력하세요. (이름은 쉼표(,) 기준으로 구분)");
         String carNames = scanner.next();
         String[] carName = carNames.split(",");
 
-        for(String name : carName){
-            if(name.length() > 5) {
+        for (String name : carName) {
+            if (name.length() > NAME_LENGTH_STANDARD) {
                 System.out.println("5자 이하의 이름으로 입력해주세요.");
                 carNames = scanner.next();
                 carName = carNames.split(",");
             }
         }
-
         return carName;
     }
 
@@ -128,9 +131,8 @@ public class RacingCarGame {
         addWinner(carList, maxPositionIdx);
 
         ArrayList<Integer> coWinnerIndex = getCoWinnerIdx(carList, maxPositionIdx);
-        for (int coWinnerIdx : coWinnerIndex) {
+        for (int coWinnerIdx : coWinnerIndex)
             addWinner(carList, coWinnerIdx);
-        }
     }
 
     public void printWinner(ArrayList<Car> carList) {
