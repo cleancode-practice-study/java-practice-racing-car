@@ -9,22 +9,23 @@ public class RacingCarGame {
 
     public void play() {
         System.out.println("경주할 자동차 이름을 입력하세요. (이름은 쉼표(,) 기준으로 구분)");
-        String[] carNames = inputCarNames();
-        ArrayList<Car> carList = createCar(carNames);
+        String[] carNames = inputCarNames(); // 자동차 이름은 5자 이하만 가능,
+        ArrayList<Car> carList = createCars(carNames);
 
         System.out.println("시도할 횟수는 몇회인가요?");
-        int tryNumber = getTryNumber();
+        int tryNumber = inputTryNumber();
 
         System.out.println("실행 결과");
-        for (int i = 0; i < tryNumber; i++) {
+        while (tryNumber > 0) {
             printRaceResult(carList);
+            tryNumber--;
         }
 
         System.out.print("최종 우승자: ");
-        printRaceWinner(carList, winner);
+        printWinner(carList);
     }
 
-    public int getTryNumber() {
+    public int inputTryNumber() {
         int tryNumber = scanner.nextInt();
 
         return tryNumber;
@@ -37,7 +38,7 @@ public class RacingCarGame {
         return carName;
     }
 
-    public ArrayList<Car> createCar(String[] carNames) {
+    public ArrayList<Car> createCars(String[] carNames) {
         ArrayList<Car> carList = new ArrayList<Car>();
 
         for (String carName : carNames) {
@@ -50,7 +51,7 @@ public class RacingCarGame {
 
     public void raceResult(ArrayList<Car> carLists) {
         for (int i = 0; i < carLists.size(); i++) {
-            carLists.get(i).race();
+            carLists.get(i).race(); // 한줄에 점 하나만
             System.out.println("");
         }
     }
@@ -60,12 +61,12 @@ public class RacingCarGame {
         System.out.println("");
     }
 
-    public int getMaxPositionIdx(ArrayList<Car> carLists) {
+    public int getMaxPositionIdx(ArrayList<Car> carList) {
         int maxPositionIdx = 0;
-        int maxPosition = carLists.get(0).getPosition();
+        int maxPosition = carList.get(0).getPosition();
 
-        for (int i = 0; i < carLists.size(); i++) {
-            int position = carLists.get(i).getPosition();
+        for (int i = 0; i < carList.size(); i++) {
+            int position = carList.get(i).getPosition(); // 한줄에 점 하나만
 
             if (maxPosition < position) {
                 maxPosition = position;
@@ -73,19 +74,20 @@ public class RacingCarGame {
             }
         }
 
-        addWinner(carLists, winner, maxPositionIdx);
-
         return maxPositionIdx;
     }
 
-    public void isEqualMaxPosition(ArrayList<Car> carList, int maxPositionIdx) {
-        int maxPosition = carList.get(maxPositionIdx).getPosition();
+    public ArrayList<Integer> getCoWinnerIdx(ArrayList<Car> carList, int maxPositionIdx) {
+        int maxPosition = carList.get(maxPositionIdx).getPosition(); // 한줄에 점 하나만
+        ArrayList<Integer> coWinnerIdx = new ArrayList<Integer>();
 
         for (int i = maxPositionIdx + 1; i < carList.size(); i++) {
             if (maxPosition == carList.get(i).getPosition()) {
-                addWinner(carList, winner, i);
+                coWinnerIdx.add(i);
             }
         }
+
+        return coWinnerIdx;
     }
 
     public ArrayList<String> addWinner(ArrayList<Car> carList, ArrayList<String> winner, int maxPositionIdx) {
@@ -94,13 +96,18 @@ public class RacingCarGame {
         return winner;
     }
 
-    public void getWinner(ArrayList<Car> carList) {
+    public void findWinner(ArrayList<Car> carList) {
         int maxPositionIdx = getMaxPositionIdx(carList);
-        isEqualMaxPosition(carList, maxPositionIdx);
+        addWinner(carList, winner, maxPositionIdx);
+
+        ArrayList<Integer> coWinnerIndex = getCoWinnerIdx(carList, maxPositionIdx);
+        for (int coWinnerIdx : coWinnerIndex) {
+            addWinner(carList, winner, coWinnerIdx);
+        }
     }
 
-    public void printRaceWinner(ArrayList<Car> carList, ArrayList<String> winner) {
-        getWinner(carList);
+    public void printWinner(ArrayList<Car> carList) {
+        findWinner(carList);
         String winners = String.join(", ", winner);
         System.out.println(winners);
     }
