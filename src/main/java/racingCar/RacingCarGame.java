@@ -26,7 +26,7 @@ public class RacingCarGame {
         printWinner(carList);
     }
 
-    public int inputTryNumber() {
+    private int inputTryNumber() {
         int tryNumber = 0;
 
         System.out.println("시도할 횟수는 몇회인가요?");
@@ -40,13 +40,13 @@ public class RacingCarGame {
         return tryNumber;
     }
 
-    public boolean isNumber(int tryNumber) {
+    private boolean isNumber(int tryNumber) {
         if (tryNumber == NOT_A_NUMBER)
             return false;
         return true;
     }
 
-    public String[] inputCarNames() {
+    private String[] inputCarNames() {
         System.out.println("경주할 자동차 이름을 입력하세요. (이름은 쉼표(,) 기준으로 구분)");
         String carNames = scanner.next();
         String[] carName = carNames.split(",");
@@ -61,7 +61,7 @@ public class RacingCarGame {
         return carName;
     }
 
-    public ArrayList<Car> createCars(String[] carNames) {
+    private ArrayList<Car> createCars(String[] carNames) {
         ArrayList<Car> carList = new ArrayList<Car>();
 
         for (String carName : carNames) {
@@ -72,7 +72,7 @@ public class RacingCarGame {
         return carList;
     }
 
-    public void raceResult(ArrayList<Car> carList) {
+    private void raceResult(ArrayList<Car> carList) {
         for (int i = 0; i < carList.size(); i++) {
             Car car = carList.get(i);
             car.race();
@@ -80,12 +80,12 @@ public class RacingCarGame {
         }
     }
 
-    public void printRaceResult(ArrayList<Car> carList) {
+    private void printRaceResult(ArrayList<Car> carList) {
         raceResult(carList);
         System.out.println("");
     }
 
-    public int getMaxPositionIdx(ArrayList<Car> carList) {
+    private int getMaxPositionIdx(ArrayList<Car> carList) {
         int maxPositionIdx = 0;
         Car car = carList.get(0);
         int maxPosition = car.getPosition();
@@ -103,7 +103,7 @@ public class RacingCarGame {
         return maxPositionIdx;
     }
 
-    public ArrayList<Integer> getCoWinnerIdx(ArrayList<Car> carList, int maxPositionIdx) {
+    private ArrayList<Integer> getCoWinnerIdx(ArrayList<Car> carList, int maxPositionIdx) {
         ArrayList<Integer> coWinnerIdx = new ArrayList<Integer>();
         Car car = carList.get(maxPositionIdx);
         int maxPosition = car.getPosition();
@@ -118,7 +118,7 @@ public class RacingCarGame {
         return coWinnerIdx;
     }
 
-    public ArrayList<String> addWinner(ArrayList<Car> carList, int maxPositionIdx) {
+    private ArrayList<String> addWinner(ArrayList<Car> carList, int maxPositionIdx) {
         Car car = carList.get(maxPositionIdx);
         String winnerName = car.getName();
         winner.add(winnerName);
@@ -126,7 +126,7 @@ public class RacingCarGame {
         return winner;
     }
 
-    public void findWinner(ArrayList<Car> carList) {
+    private void findWinner(ArrayList<Car> carList) {
         int maxPositionIdx = getMaxPositionIdx(carList);
         addWinner(carList, maxPositionIdx);
 
@@ -135,7 +135,7 @@ public class RacingCarGame {
             addWinner(carList, coWinnerIdx);
     }
 
-    public void printWinner(ArrayList<Car> carList) {
+    private void printWinner(ArrayList<Car> carList) {
         findWinner(carList);
         String winners = String.join(", ", winner);
         System.out.println(winners);

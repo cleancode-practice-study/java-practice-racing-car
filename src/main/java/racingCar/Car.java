@@ -17,7 +17,7 @@ public class Car {
         return this.name;
     }
 
-    public int getNumber() {
+    private int getNumber() {
         return RandomUtils.nextInt(START_VALUE, END_VALUE);
     }
 
@@ -25,16 +25,16 @@ public class Car {
         return position;
     }
 
-    public int isMove() {
+    public void moveOrStop() {
         int number = getNumber();
 
         if (number >= MOVING_STANDARD)
             this.position++;
-
-        return position;
     }
+
     public void race() {
-        int location = isMove();
+        moveOrStop();
+        int location = this.getPosition();
 
         System.out.print(this.name + ":");
         for (int i = 0; i < location; i++) {
