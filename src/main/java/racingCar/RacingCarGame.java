@@ -69,9 +69,10 @@ public class RacingCarGame {
         return carList;
     }
 
-    public void raceResult(ArrayList<Car> carLists) {
-        for (int i = 0; i < carLists.size(); i++) {
-            carLists.get(i).race(); // 한줄에 점 하나만
+    public void raceResult(ArrayList<Car> carList) {
+        for (int i = 0; i < carList.size(); i++) {
+            Car car = carList.get(i);
+            car.race();
             System.out.println("");
         }
     }
@@ -83,10 +84,12 @@ public class RacingCarGame {
 
     public int getMaxPositionIdx(ArrayList<Car> carList) {
         int maxPositionIdx = 0;
-        int maxPosition = carList.get(0).getPosition();
+        Car car = carList.get(0);
+        int maxPosition = car.getPosition();
 
         for (int i = 0; i < carList.size(); i++) {
-            int position = carList.get(i).getPosition(); // 한줄에 점 하나만
+            car = carList.get(i);
+            int position = car.getPosition();
 
             if (maxPosition < position) {
                 maxPosition = position;
@@ -98,11 +101,13 @@ public class RacingCarGame {
     }
 
     public ArrayList<Integer> getCoWinnerIdx(ArrayList<Car> carList, int maxPositionIdx) {
-        int maxPosition = carList.get(maxPositionIdx).getPosition(); // 한줄에 점 하나만
         ArrayList<Integer> coWinnerIdx = new ArrayList<Integer>();
+        Car car = carList.get(maxPositionIdx);
+        int maxPosition = car.getPosition();
 
         for (int i = maxPositionIdx + 1; i < carList.size(); i++) {
-            if (maxPosition == carList.get(i).getPosition()) {
+            car = carList.get(i);
+            if (maxPosition == car.getPosition()) {
                 coWinnerIdx.add(i);
             }
         }
@@ -110,19 +115,21 @@ public class RacingCarGame {
         return coWinnerIdx;
     }
 
-    public ArrayList<String> addWinner(ArrayList<Car> carList, ArrayList<String> winner, int maxPositionIdx) {
-        winner.add(carList.get(maxPositionIdx).getName());
+    public ArrayList<String> addWinner(ArrayList<Car> carList, int maxPositionIdx) {
+        Car car = carList.get(maxPositionIdx);
+        String winnerName = car.getName();
+        winner.add(winnerName);
 
         return winner;
     }
 
     public void findWinner(ArrayList<Car> carList) {
         int maxPositionIdx = getMaxPositionIdx(carList);
-        addWinner(carList, winner, maxPositionIdx);
+        addWinner(carList, maxPositionIdx);
 
         ArrayList<Integer> coWinnerIndex = getCoWinnerIdx(carList, maxPositionIdx);
         for (int coWinnerIdx : coWinnerIndex) {
-            addWinner(carList, winner, coWinnerIdx);
+            addWinner(carList, coWinnerIdx);
         }
     }
 
