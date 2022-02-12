@@ -17,10 +17,6 @@ public class Car {
         return name;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
     public List<String> getWinners(List<Car> cars) {
         int winScore = getWinScore(cars);
         List<String> winners = new ArrayList<>();
@@ -36,7 +32,7 @@ public class Car {
     private int getWinScore(List<Car> cars) {
         int winScore = 0;
         for (Car car : cars) {
-            if ( winScore < car.position) {
+            if (winScore < car.position) {
                 winScore = car.position;
             }
         }
