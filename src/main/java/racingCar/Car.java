@@ -1,7 +1,10 @@
 package racingCar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Car {
-    private static int CAR_DRIVE = 4;
+    private static final int CAR_DRIVE = 4;
 
     private final String name;
     private int position = 0;
@@ -16,6 +19,28 @@ public class Car {
 
     public int getPosition() {
         return position;
+    }
+
+    public List<String> getWinners(List<Car> cars) {
+        int winScore = getWinScore(cars);
+        List<String> winners = new ArrayList<>();
+
+        for (Car car : cars) {
+            if (car.position == winScore) {
+                winners.add(car.getName());
+            }
+        }
+        return winners;
+    }
+
+    private int getWinScore(List<Car> cars) {
+        int winScore = 0;
+        for (Car car : cars) {
+            if ( winScore < car.position) {
+                winScore = car.position;
+            }
+        }
+        return winScore;
     }
 
     public void move(int randomNum) {

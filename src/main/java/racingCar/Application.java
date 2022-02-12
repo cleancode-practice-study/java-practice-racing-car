@@ -19,6 +19,12 @@ import java.util.Scanner;
 // 출력 로직 수정
 // 인터페이스 참조하도록 수정
 
+// indent 1로 줄이기 위해 stream 사용
+// getPosition 사용 바꿔보기
+// main에서 호출하지 않는 메서드는 static으로 선언하지 않도록 구현해보자.
+// 공백 라인 잘 나누기
+// 필요 없는 변수 초기화 줄이기
+
 public class Application {
 	public static int CAR_NAME_LIMIT = 5;
 	public static int START_RANDOM_NUMBER = 0;
@@ -43,16 +49,17 @@ public class Application {
 		printWinners(winners);
 	}
 
+
 	private static List<String> getCarNames() {
-		boolean isValid;
+		boolean isInvalid;
 		List<String> carNames;
 
 		do {
 			System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
 			String names = scanner.nextLine();
 			carNames = splitCarNames(names);
-			isValid = checkValidName(carNames);
-		} while (!isValid);
+			isInvalid = checkValidNames(carNames);
+		} while (isInvalid);
 
 		return carNames;
 	}
@@ -62,14 +69,15 @@ public class Application {
 		return new ArrayList<>(Arrays.asList(names));
 	}
 
-	private static boolean checkValidName(List<String> names) {
-		for (String name : names) {
-			if (name.length() > CAR_NAME_LIMIT) {
-				System.out.println("[ERROR] 자동차 이름의 길이는 5자 이하야 이어야 한다.");
-				return false;
-			}
+	private static boolean checkValidNames(List<String> names){
+		boolean isInvalid =
+				names.stream().anyMatch(name -> name.length() > CAR_NAME_LIMIT);
+
+		if (isInvalid = false) {
+			System.out.println("[ERROR] 자동차 이름은 5자 이하여야 합니다.");
 		}
-		return true;
+
+		return isInvalid;
 	}
 
 	private static List<Car> createCars(List<String> names) {
@@ -96,9 +104,8 @@ public class Application {
 	}
 
 	private static int getRacingCount() {
-
 		String input;
-		int racingCount = 0;
+		int racingCount;
 		boolean isValid;
 
 		do {
@@ -113,17 +120,13 @@ public class Application {
 	}
 
 	private static boolean checkValidRacingCount(String input) {
-
 		boolean isValid = true;
+
 		try {
-
 			Integer.parseInt(input);
-
 		} catch (NumberFormatException exception) {
-
 			System.out.println("[ERROR] 시도 횟수는 숫자여야 한다.");
 			isValid = false;
-
 		}
 
 		return isValid;
@@ -146,24 +149,11 @@ public class Application {
 	}
 
 	private static List<String> getWinners(List<Car> cars) {
-		int winScore = getWinScore(cars);
 		List<String> winners = new ArrayList<>();
 		for (Car car : cars) {
-			if (car.getPosition() == winScore) {
-				winners.add(car.getName());
-			}
+			winners = car.getWinners(cars);
 		}
 		return winners;
-	}
-
-	private static int getWinScore(List<Car> cars) {
-		int winScore = 0;
-		for (Car car : cars) {
-			if ( winScore < car.getPosition()) {
-				winScore = car.getPosition();
-			}
-		}
-		return winScore;
 	}
 
 	private static void printWinners(List<String> winners) {
