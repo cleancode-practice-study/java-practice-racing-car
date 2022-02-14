@@ -8,57 +8,55 @@ public class RacingCarGame {
     private static final int NAME_LENGTH_STANDARD = 5;
     private static final int NOT_A_NUMBER = -1;
     final Scanner scanner = new Scanner(System.in);
-    ArrayList<String> winner = new ArrayList<String>();
+
+    ArrayList<String> winners = new ArrayList<String>();
 
     public void play() {
         String[] carNames = inputCarNames();
-        ArrayList<Car> carList = createCars(carNames);
+        ArrayList<Car> cars = createCars(carNames);
         int tryNumber = inputTryNumber();
-        boolean isNum = isNumber(tryNumber);
-        if (!isNum)
-            System.exit(0);
 
         System.out.println("실행 결과");
         for (int i = 0; i < tryNumber; i++)
-            printRaceResult(carList);
+            printRaceResult(cars);
 
         System.out.print("최종 우승자: ");
-        printWinner(carList);
+        printWinner(cars);
     }
 
     private int inputTryNumber() {
-        int tryNumber = 0;
+        int tryNumber = -1;
 
-        System.out.println("시도할 횟수는 몇회인가요?");
-        try {
-            tryNumber = scanner.nextInt();
-        } catch (InputMismatchException ime) {
-            System.out.println("[ERROR] 시도 횟수는 숫자여야 한다.");
-            tryNumber = -1;
+        while (!isNumber(tryNumber)) {
+            try {
+                System.out.println("시도할 횟수는 몇회인가요?");
+                tryNumber = scanner.nextInt();
+            } catch (InputMismatchException ime) {
+                System.out.println("[ERROR] 시도 횟수는 숫자여야 한다.");
+                tryNumber = -1;
+                scanner.next();
         }
-
+        }
         return tryNumber;
     }
 
     private boolean isNumber(int tryNumber) {
-        if (tryNumber == NOT_A_NUMBER)
-            return false;
-        return true;
+        return tryNumber != NOT_A_NUMBER;
     }
 
     private String[] inputCarNames() {
         System.out.println("경주할 자동차 이름을 입력하세요. (이름은 쉼표(,) 기준으로 구분)");
-        String carNames = scanner.next();
-        String[] carName = carNames.split(",");
+        String name = scanner.next();
+        String[] names = name.split(",");
 
-        for (String name : carName) {
-            if (name.length() > NAME_LENGTH_STANDARD) {
+        for (String carName : names) {
+            if (carName.length() > NAME_LENGTH_STANDARD) {
                 System.out.println("5자 이하의 이름으로 입력해주세요.");
-                carNames = scanner.next();
-                carName = carNames.split(",");
+                name = scanner.next();
+                names = name.split(",");
             }
         }
-        return carName;
+        return names;
     }
 
     private ArrayList<Car> createCars(String[] carNames) {
@@ -121,9 +119,9 @@ public class RacingCarGame {
     private ArrayList<String> addWinner(ArrayList<Car> carList, int maxPositionIdx) {
         Car car = carList.get(maxPositionIdx);
         String winnerName = car.getName();
-        winner.add(winnerName);
+        winners.add(winnerName);
 
-        return winner;
+        return winners;
     }
 
     private void findWinner(ArrayList<Car> carList) {
@@ -137,8 +135,8 @@ public class RacingCarGame {
 
     private void printWinner(ArrayList<Car> carList) {
         findWinner(carList);
-        String winners = String.join(", ", winner);
-        System.out.println(winners);
+        String winner = String.join(", ", winners);
+        System.out.println(winner);
     }
 
 }
