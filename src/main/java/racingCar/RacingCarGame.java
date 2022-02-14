@@ -44,16 +44,22 @@ public class RacingCarGame {
         return tryNumber != NOT_A_NUMBER;
     }
 
+    private String[] splitCarNames(String name){
+        String[] names = name.split(",");
+
+        return names;
+    }
+
     private String[] inputCarNames() {
         System.out.println("경주할 자동차 이름을 입력하세요. (이름은 쉼표(,) 기준으로 구분)");
         String name = scanner.next();
-        String[] names = name.split(",");
+        String[] names = splitCarNames(name);
 
         for (String carName : names) {
             if (carName.length() > NAME_LENGTH_STANDARD) {
                 System.out.println("5자 이하의 이름으로 입력해주세요.");
                 name = scanner.next();
-                names = name.split(",");
+                names = splitCarNames(name);
             }
         }
         return names;
