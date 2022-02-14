@@ -48,7 +48,7 @@ public class RacingCarGame {
     }
 
     private boolean checkNameLength(String[] names) {
-        for (String carName: names) {
+        for (String carName : names) {
             if (carName.length() > NAME_LENGTH_STANDARD) {
                 System.out.println("5자 이하의 이름으로 입력하세요.");
                 return false;
@@ -58,15 +58,14 @@ public class RacingCarGame {
     }
 
     private String[] inputCarNames() {
-        System.out.println("경주할 자동차 이름을 입력하세요. (이름은 쉼표(,) 기준으로 구분)");
-        boolean check = true;
+        boolean check;
         String name;
         String[] names;
 
+        System.out.println("경주할 자동차 이름을 입력하세요. (이름은 쉼표(,) 기준으로 구분)");
         do {
             name = scanner.next();
             names = splitCarNames(name);
-
             check = checkNameLength(names);
         } while (!check);
 
@@ -74,7 +73,7 @@ public class RacingCarGame {
     }
 
     private List<Car> createCars(String[] names) {
-        List<Car> cars = new ArrayList<Car>();
+        List<Car> cars = new ArrayList<>();
 
         for (String name : names) {
             Car car = new Car(name);
@@ -84,23 +83,17 @@ public class RacingCarGame {
         return cars;
     }
 
-    private void raceResult(List<Car> cars) {
+    private void printRaceResult(List<Car> cars) {
         for (int i = 0; i < cars.size(); i++) {
             Car car = cars.get(i);
             car.race();
             System.out.println("");
         }
-    }
-
-    private void printRaceResult(List<Car> cars) {
-        raceResult(cars);
         System.out.println("");
     }
 
-    private int getMaxPositionIdx(List<Car> cars) {
+    private int getMaxPositionIdx(List<Car> cars, Car car, int maxPosition) {
         int maxPositionIdx = 0;
-        Car car = cars.get(0);
-        int maxPosition = car.getPosition();
 
         for (int i = 0; i < cars.size(); i++) {
             car = cars.get(i);
@@ -138,7 +131,9 @@ public class RacingCarGame {
 
     private List<String> findWinner(List<Car> cars) {
         List<String> winners = new ArrayList<>();
-        int maxPositionIdx = getMaxPositionIdx(cars);
+        Car initialCar = cars.get(0);
+        int initialPosition = initialCar.getPosition();
+        int maxPositionIdx = getMaxPositionIdx(cars, initialCar, initialPosition);
         addWinner(cars, winners, maxPositionIdx);
 
         List<Integer> coWinnerIndex = getCoWinnerIdx(cars, maxPositionIdx);
@@ -153,5 +148,4 @@ public class RacingCarGame {
         String winner = String.join(", ", winners);
         System.out.println(winner);
     }
-
 }
