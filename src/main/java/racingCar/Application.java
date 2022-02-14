@@ -24,7 +24,5 @@ public class Application {
         RacingGame game = new RacingGame();
 
         game.startGame();
-
-        // git commit test
     }
 }

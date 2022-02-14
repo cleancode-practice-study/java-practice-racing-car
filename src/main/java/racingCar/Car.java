@@ -17,6 +17,8 @@ public class Car {
         return name;
     }
 
+    public int getPosition() { return position; }
+
     public List<String> getWinners(List<Car> cars) {
         int winScore = getWinScore(cars);
         List<String> winners = new ArrayList<>();

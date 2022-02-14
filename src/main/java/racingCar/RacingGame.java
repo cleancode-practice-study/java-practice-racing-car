@@ -133,6 +133,7 @@ public class RacingGame {
         List<String> winners = new ArrayList<>();
         for (Car car : cars) {
             winners = car.getWinners(cars);
+            return winners;
         }
         return winners;
     }
