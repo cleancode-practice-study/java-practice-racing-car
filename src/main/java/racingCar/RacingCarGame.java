@@ -2,6 +2,7 @@ package racingCar;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class RacingCarGame {
@@ -11,7 +12,7 @@ public class RacingCarGame {
 
     public void play() {
         String[] carNames = inputCarNames();
-        ArrayList<Car> cars = createCars(carNames);
+        List<Car> cars = createCars(carNames);
         int tryNumber = inputTryNumber();
 
         System.out.println("실행 결과");
@@ -64,8 +65,8 @@ public class RacingCarGame {
         return names;
     }
 
-    private ArrayList<Car> createCars(String[] names) {
-        ArrayList<Car> cars = new ArrayList<Car>();
+    private List<Car> createCars(String[] names) {
+        List<Car> cars = new ArrayList<Car>();
 
         for (String name : names) {
             Car car = new Car(name);
@@ -75,7 +76,7 @@ public class RacingCarGame {
         return cars;
     }
 
-    private void raceResult(ArrayList<Car> cars) {
+    private void raceResult(List<Car> cars) {
         for (int i = 0; i < cars.size(); i++) {
             Car car = cars.get(i);
             car.race();
@@ -83,12 +84,12 @@ public class RacingCarGame {
         }
     }
 
-    private void printRaceResult(ArrayList<Car> cars) {
+    private void printRaceResult(List<Car> cars) {
         raceResult(cars);
         System.out.println("");
     }
 
-    private int getMaxPositionIdx(ArrayList<Car> cars) {
+    private int getMaxPositionIdx(List<Car> cars) {
         int maxPositionIdx = 0;
         Car car = cars.get(0);
         int maxPosition = car.getPosition();
@@ -106,8 +107,8 @@ public class RacingCarGame {
         return maxPositionIdx;
     }
 
-    private ArrayList<Integer> getCoWinnerIdx(ArrayList<Car> cars, int maxPositionIdx) {
-        ArrayList<Integer> coWinnerIdx = new ArrayList<Integer>();
+    private List<Integer> getCoWinnerIdx(List<Car> cars, int maxPositionIdx) {
+        List<Integer> coWinnerIdx = new ArrayList<Integer>();
         Car car = cars.get(maxPositionIdx);
         int maxPosition = car.getPosition();
 
@@ -121,26 +122,26 @@ public class RacingCarGame {
         return coWinnerIdx;
     }
 
-    private void addWinner(ArrayList<Car> cars, int maxPositionIdx,  ArrayList<String> winners) {
+    private void addWinner(List<Car> cars, List<String> winners, int maxPositionIdx) {
         Car car = cars.get(maxPositionIdx);
         String winnerName = car.getName();
         winners.add(winnerName);
     }
 
-    private ArrayList<String> findWinner(ArrayList<Car> cars) {
-        ArrayList<String> winners = new ArrayList<>();
+    private List<String> findWinner(List<Car> cars) {
+        List<String> winners = new ArrayList<>();
         int maxPositionIdx = getMaxPositionIdx(cars);
-        addWinner(cars, maxPositionIdx , winners);
+        addWinner(cars, winners, maxPositionIdx);
 
-        ArrayList<Integer> coWinnerIndex = getCoWinnerIdx(cars, maxPositionIdx);
+        List<Integer> coWinnerIndex = getCoWinnerIdx(cars, maxPositionIdx);
         for (int coWinnerIdx : coWinnerIndex)
-            addWinner(cars, coWinnerIdx, winners);
+            addWinner(cars, winners, coWinnerIdx);
 
         return winners;
     }
 
-    private void printWinner(ArrayList<Car> cars) {
-        ArrayList<String> winners = findWinner(cars);
+    private void printWinner(List<Car> cars) {
+        List<String> winners = findWinner(cars);
         String winner = String.join(", ", winners);
         System.out.println(winner);
     }
