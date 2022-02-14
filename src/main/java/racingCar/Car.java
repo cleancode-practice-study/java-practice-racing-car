@@ -25,7 +25,7 @@ public class Car {
         return position;
     }
 
-    public void moveOrStop() {
+    private void moveOrStop() {
         int number = getNumber();
 
         if (number >= MOVING_STANDARD)
