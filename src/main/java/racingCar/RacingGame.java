@@ -45,12 +45,12 @@ public class RacingGame {
         return carNames;
     }
 
-    private List<String> splitCarNames(String cars) {
+    public List<String> splitCarNames(String cars) {
         String[] names = cars.split(",");
         return new ArrayList<>(Arrays.asList(names));
     }
 
-    private boolean checkValidNames(List<String> names) {
+    public boolean checkValidNames(List<String> names) {
         boolean isInvalid =
                 names.stream().anyMatch(name -> name.length() > CAR_NAME_LIMIT);
 
@@ -61,7 +61,7 @@ public class RacingGame {
         return isInvalid;
     }
 
-    private List<Car> createCars(List<String> names) {
+    public List<Car> createCars(List<String> names) {
         List<Car> cars = new ArrayList<>();
         for (String name : names) {
             Car car = new Car(name);
@@ -100,7 +100,7 @@ public class RacingGame {
         return racingCount;
     }
 
-    private boolean checkValidRacingCount(String input) {
+    public boolean checkValidRacingCount(String input) {
         boolean isValid = true;
 
         try {
