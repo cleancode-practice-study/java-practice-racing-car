@@ -18,6 +18,7 @@ public class RacingGameTest {
 
         //then
         assertThat(names.length).isEqualTo(3);
+        assertThat(names).containsExactly("하림", "진희", "도원");
     }
 
     @Test
