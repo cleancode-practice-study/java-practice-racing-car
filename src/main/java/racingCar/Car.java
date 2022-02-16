@@ -22,7 +22,7 @@ public class Car {
     }
 
     public int getPosition() {
-        return position;
+        return this.position;
     }
 
     private void moveOrStop() {
@@ -32,12 +32,16 @@ public class Car {
             this.position++;
     }
 
-    public void race() {
+    public int getMoveCount(){
         moveOrStop();
-        int location = this.getPosition();
+        int moveCount = this.getPosition();
 
+        return moveCount;
+    }
+
+    public void printMove(int count) {
         System.out.print(this.name + ":");
-        for (int i = 0; i < location; i++) {
+        for (int i = 0; i < count; i++) {
             System.out.print("-");
         }
     }

@@ -86,7 +86,8 @@ public class RacingCarGame {
     private void printRaceResult(List<Car> cars) {
         for (int i = 0; i < cars.size(); i++) {
             Car car = cars.get(i);
-            car.race();
+            int count = car.getMoveCount();
+            car.printMove(count);
             System.out.println("");
         }
         System.out.println("");
