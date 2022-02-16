@@ -44,7 +44,7 @@ public class CarTest {
 
         List<String> winner = carOne.getWinners(cars);
 
-        assertThat(winner.get(0)).isEqualTo("one");
+        assertThat(winner).isNotNull().contains("one");
     }
 
     @Test
@@ -65,6 +65,7 @@ public class CarTest {
 
         List<String> winner = carOne.getWinners(cars);
 
-        assertThat(winner.toString()).isEqualTo("[one, two]");
+        assertThat(winner).isNotNull().contains("one", "two");
     }
+
 }
