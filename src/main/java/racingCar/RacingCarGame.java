@@ -20,7 +20,8 @@ public class RacingCarGame {
             printRaceResult(cars);
 
         System.out.print("최종 우승자: ");
-        printWinner(cars);
+        List<String> winners = findWinner(cars);
+        printWinner(winners);
     }
 
     private int inputTryNumber() {
@@ -144,8 +145,7 @@ public class RacingCarGame {
         return winners;
     }
 
-    private void printWinner(List<Car> cars) {
-        List<String> winners = findWinner(cars);
+    private void printWinner(List<String> winners) {
         String winner = String.join(", ", winners);
         System.out.println(winner);
     }
