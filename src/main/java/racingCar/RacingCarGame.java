@@ -11,9 +11,9 @@ public class RacingCarGame {
     final Scanner scanner = new Scanner(System.in);
 
     public void play() {
-        String[] carNames = inputCarNames();
-        List<Car> cars = createCars(carNames);
+        String[] names = inputNames();
         int tryNumber = inputTryNumber();
+        List<Car> cars = createCars(names);
 
         System.out.println("실행 결과");
         for (int i = 0; i < tryNumber; i++)
@@ -25,7 +25,7 @@ public class RacingCarGame {
     }
 
     private int inputTryNumber() {
-        int tryNumber = -1;
+        int tryNumber = NOT_A_NUMBER;
 
         while (!isNumber(tryNumber)) {
             try {
@@ -33,7 +33,7 @@ public class RacingCarGame {
                 tryNumber = scanner.nextInt();
             } catch (InputMismatchException ime) {
                 System.out.println("[ERROR] 시도 횟수는 숫자여야 한다.");
-                tryNumber = -1;
+                tryNumber = NOT_A_NUMBER;
                 scanner.next();
             }
         }
@@ -44,13 +44,13 @@ public class RacingCarGame {
         return tryNumber != NOT_A_NUMBER;
     }
 
-    private String[] splitCarNames(String name) {
+    private String[] splitNames(String name) {
         return name.split(",");
     }
 
     private boolean checkNameLength(String[] names) {
-        for (String carName : names) {
-            if (carName.length() > NAME_LENGTH_STANDARD) {
+        for (String name : names) {
+            if (name.length() > NAME_LENGTH_STANDARD) {
                 System.out.println("5자 이하의 이름으로 입력하세요.");
                 return false;
             }
@@ -58,15 +58,14 @@ public class RacingCarGame {
         return true;
     }
 
-    private String[] inputCarNames() {
+    private String[] inputNames() {
         boolean check;
-        String name;
         String[] names;
 
         System.out.println("경주할 자동차 이름을 입력하세요. (이름은 쉼표(,) 기준으로 구분)");
         do {
-            name = scanner.next();
-            names = splitCarNames(name);
+            String name = scanner.next();
+            names = splitNames(name);
             check = checkNameLength(names);
         } while (!check);
 
