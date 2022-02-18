@@ -36,7 +36,7 @@ public class RacingGameTest {
 
 
     @Test
-    void 시도횟수_숫자인경우(){
+    void 시도횟수_숫자인_경우(){
         //given
         RacingCarGame game = new RacingCarGame();
         int tryNumber = 4;
@@ -46,6 +46,19 @@ public class RacingGameTest {
 
         //then
         assertThat(check).isEqualTo(true);
+    }
+
+    @Test
+    void 시도횟수_숫자가_아닌경우(){
+        //given
+        RacingCarGame game = new RacingCarGame();
+        int tryNumber = -1;
+
+        //when
+        boolean check = game.isNumber(tryNumber);
+
+        //then
+        assertThat(check).isEqualTo(false);
     }
 
     @Test
@@ -59,6 +72,20 @@ public class RacingGameTest {
 
         //then
         assertThat(check).isEqualTo(true);
+
+    }
+
+    @Test
+    void 자동차_이름_길이가_5자_이상일경우(){
+        //given
+        RacingCarGame game = new RacingCarGame();
+        String[] names = {"Margaret", "halim" , "Elizabethe"};
+
+        //when
+        boolean check = game.checkNameLength(names);
+
+        //then
+        assertThat(check).isEqualTo(false);
 
     }
 }
