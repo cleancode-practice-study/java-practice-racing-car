@@ -32,7 +32,7 @@ public class CarTest {
     }
 
     @Test
-    void 경주_결과를_출력하는_꼉경우(){
+    void 경주_결과를_출력하는_경우(){
         //given
         Car car = new Car("halim");
         int moveCount = 4;
