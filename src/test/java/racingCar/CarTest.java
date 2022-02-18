@@ -6,7 +6,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 public class CarTest {
     @Test
-    void moveTest(){
+    void 랜덤_값이_4보다_큰_경우(){
         //given
         Car car = new Car("halim");
         int number = 8;
@@ -19,7 +19,7 @@ public class CarTest {
     }
 
     @Test
-    void stopTest() {
+    void 랜덤_값이_4보다_작은_경우() {
         //given
         Car car = new Car("halim");
         int number = 3;
@@ -29,5 +29,18 @@ public class CarTest {
 
         //then
         assertThat(car.getPosition()).isEqualTo(0);
+    }
+
+    @Test
+    void 경주_결과를_출력하는_꼉경우(){
+        //given
+        Car car = new Car("halim");
+        int moveCount = 4;
+
+        //when
+        String move = car.printMove(moveCount);
+
+        //then
+        assertThat(move).isEqualTo("----");
     }
 }
